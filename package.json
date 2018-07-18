@@ -3,16 +3,35 @@
   "version": "1.0.0",
   "description": "POC - NodeJS REST API using SQLite as a database.",
   "author": "Romuald Tuffreau https://github.com/romwaldtff",
+  "scripts": {
+    "server:dev": "gulp",
+    "server:prod": "cross-env process.env.NODE_ENV=production gulp",
+    "server:lint": "cross-env process.env.NODE_ENV=lint gulp",
+    "start:dev": "cross-env process.env.NODE_ENV=development supervisor ./dist/app.js",
+    "start:prod": "cross-env process.env.NODE_ENV=production supervisor ./dist/app.js"
+  },
   "dependencies": {
+    "bluebird": "*",
     "body-parser": "*",
+    "cross-env": "^5.2.0",
     "ejs": "*",
     "express": "*",
-    "sqlite": "*",
-    "bluebird": "*"
+    "sqlite": "*"
   },
   "license": "LGPL-3.0",
   "bugs": {
     "url": "https://github.com/romwaldtff/NodeJS-REST-API-SQLite/issues"
   },
-  "repository": "https://github.com/romwaldtff/NodeJS-REST-API-SQLite"
+  "repository": "https://github.com/romwaldtff/NodeJS-REST-API-SQLite",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-decorators-legacy": "^1.3.5",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^7.0.1",
+    "gulp-rollup": "^2.16.2",
+    "gulp-sequence": "^1.0.0",
+    "gulp-watch": "^5.0.0",
+    "rollup-plugin-replace": "^2.0.0"
+  }
 }

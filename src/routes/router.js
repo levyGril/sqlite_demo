@@ -8,4 +8,7 @@ const router = express.Router();
 router.use('/car', require('./api/carRoutes'));
 router.use('/driver', require('./api/driverRoutes'));
 
+router.use('/stuff', require('./api/stuffRoutes'));
+router.use('/gift', require('./api/giftRoutes'));
+
 module.exports = router;

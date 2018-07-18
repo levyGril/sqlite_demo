@@ -4,7 +4,7 @@ const app = express();
 const bodyParser = require("body-parser");
 
 /* Database configuration */
-const database = require('./app/config/dbconfig');
+const database = require('./config/dbconfig');
 
 /* Init database */
 database.init();
@@ -21,4 +21,4 @@ app.use(bodyParser.json());
 
 /* Router configuration */
 const REST_API_ROOT = '/api';
-app.use(REST_API_ROOT, require('./app/routes/router'));
+app.use(REST_API_ROOT, require('./routes/router'));
