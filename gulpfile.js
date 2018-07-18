@@ -56,7 +56,7 @@ gulp.task('buildConfig', function() {
     // transform the files here.
         .pipe(rollup({
             // any option supported by Rollup can be set here.
-            input: './src/config/index.js',
+            input: './src/config/dbconfig.js',
             output: {
                 format: 'cjs'
             },
