@@ -62,9 +62,9 @@ class StuffController {
     update(req, res) {
         let stuff = new Stuff();
         stuff.id = req.body.id;
-        stuff.name = req.body.name;
-        stuff.tel= req.body.tel;
-        stuff.birth= req.body.birth;
+        // stuff.name = req.body.name;
+        // stuff.tel= req.body.tel;
+        // stuff.birth= req.body.birth;
         stuff.giftTitle= req.body.giftTitle;
         stuff.giftId= req.body.giftId;
 
@@ -88,6 +88,7 @@ class StuffController {
         stuff.birth= req.body.birth;
         stuff.giftTitle= req.body.giftTitle;
         stuff.giftId= req.body.giftId;
+        stuff.giftYear = req.body.giftYear;
 
         if (req.body.id) {
             return this.stuffDao.createWithId(stuff)
@@ -127,6 +128,35 @@ class StuffController {
             .then(this.common.existsSuccess(res))
             .catch(this.common.findError(res));
     };
+
+    existByName(req, res) {
+        let stuff = new Stuff();
+
+        stuff.name = req.body.name;
+        stuff.tel= req.body.tel;
+        stuff.birth= req.body.birth;
+        stuff.giftYear = req.body.giftYear;
+
+        return this.stuffDao.existByName(stuff)
+            .then(this.common.editSuccess(res))
+            .catch(this.common.serverError(res));
+
+    };
+
+    findByName(req, res) {
+        let stuff = new Stuff();
+
+        stuff.name = req.body.name;
+        stuff.tel= req.body.tel;
+        stuff.birth= req.body.birth;
+        stuff.giftYear = req.body.giftYear;
+
+        return this.stuffDao.findByName(stuff)
+            .then(this.common.editSuccess(res))
+            .catch(this.common.serverError(res));
+
+    };
+
 }
 
 module.exports = StuffController;

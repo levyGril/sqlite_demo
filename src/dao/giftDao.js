@@ -25,10 +25,10 @@ class GiftDao {
      * @return entity
      */
     findById(id) {
-        let sqlRequest = "SELECT id, title, notes, count, category, status,createTime FROM gift_info WHERE id=$id";
+        let sqlRequest = "SELECT id, title, notes, count, category, status,create_time FROM gift_info WHERE id=$id";
         let sqlParams = {$id: id};
         return this.common.findOne(sqlRequest, sqlParams).then(row =>
-            new Gift(row.id, row.title, row.notes, row.count, row.category, row.status,row.createTime));
+            new Gift(row.id, row.title, row.notes, row.count, row.category, row.status,row.create_time));
     };
 
     /**
@@ -40,7 +40,7 @@ class GiftDao {
         return this.common.findAll(sqlRequest).then(rows => {
             let gifts = [];
             for (const row of rows) {
-                gifts.push(new Gift(row.id, row.title, row.notes, row.count, row.category, row.status,row.createTime));
+                gifts.push(new Gift(row.id, row.title, row.notes, row.count, row.category, row.status,row.create_time));
             }
             return gifts;
         });
@@ -62,11 +62,13 @@ class GiftDao {
      */
     update(Gift) {
         let sqlRequest = "UPDATE gift_info SET " +
-            "count=count-1, " +
-            "WHERE id=$id";
+            " count=count-1 " +
+            " WHERE id=$id";
         let sqlParams = {
             $id: Gift.id
         };
+        console.log(sqlRequest);
+        console.log(Gift);
         return this.common.run(sqlRequest, sqlParams);
     };
 

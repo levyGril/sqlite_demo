@@ -23,7 +23,7 @@ router.get('/exists/:id', function (req, res) {
     giftController.exists(req, res);
 });
 
-router.get('findById/:id', function (req, res) {
+router.get('/findById/:id', function (req, res) {
     giftController.findById(req, res);
 });
 
@@ -31,7 +31,7 @@ router.get('/', function (req, res) {
     giftController.findAll(res);
 });
 
-router.put('update/:id', function (req, res) {
+router.get('/update/:id', function (req, res) {
     giftController.update(req, res);
 });
 
@@ -39,7 +39,7 @@ router.post('/create', function (req, res) {
     giftController.create(req, res);
 });
 
-router.delete('delete/:id', function (req, res) {
+router.delete('/delete/:id', function (req, res) {
     giftController.deleteById(req, res);
 });
 

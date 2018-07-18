@@ -22,10 +22,10 @@ class StuffDao {
      * @return entity
      */
     findById(id) {
-        let sqlRequest = "SELECT id, name, tel, birth, giftTitle, giftId,giftYear,createTime FROM stuff WHERE id=$id";
+        let sqlRequest = "SELECT id, name, tel, birth, gift_title, gift_id,gift_year,create_time FROM stuff WHERE id=$id";
         let sqlParams = {$id: id};
         return this.common.findOne(sqlRequest, sqlParams).then(row =>
-            new Stuff(row.id, row.name, row.tel, row.birth, row.giftTitle, row.giftId,row.giftYear,row.createTime));
+            new Stuff(row.id, row.name, row.tel, row.birth, row.gift_title, row.gift_id,row.gift_year,row.create_time));
     };
 
     /**
@@ -37,7 +37,7 @@ class StuffDao {
         return this.common.findAll(sqlRequest).then(rows => {
             let stuffs = [];
             for (const row of rows) {
-                stuffs.push(new Stuff(row.id, row.name, row.tel, row.birth, row.giftTitle, row.giftId,row.giftYear,row.createTime));
+                stuffs.push(new Stuff(row.id, row.name, row.tel, row.birth, row.gift_title, row.gift_id,row.gift_year,row.create_time));
             }
             return stuffs;
         });
@@ -59,17 +59,17 @@ class StuffDao {
      */
     update(Stuff) {
         let sqlRequest = "UPDATE stuff SET " +
-            "name=name, " +
-            "tel=tel, " +
-            "birth=birth, " +
-            "giftTitle=giftTitle " +
-            "giftId=giftId " +
+           /** "name=$name, " +
+            "tel=$tel, " +
+            "birth=$birth, " +*/
+            "gift_title=$giftTitle, " +
+            "gift_id=$giftId " +
             "WHERE id=$id";
 
         let sqlParams = {
-            $name: Stuff.name,
-            $tel: Stuff.tel,
-            $birth: Stuff.birth,
+            //$name: Stuff.name,
+            //$tel: Stuff.tel,
+           // $birth: Stuff.birth,
             $giftTitle: Stuff.giftTitle,
             $giftId: Stuff.giftId,
             $id: Stuff.id
@@ -83,7 +83,7 @@ class StuffDao {
      * returns database insertion status
      */
     create(Stuff) {
-        let sqlRequest = "INSERT into stuff (name, tel, birth, giftTitle, giftId,giftYear) " +
+        let sqlRequest = "INSERT into stuff (name, tel, birth, gift_title, gift_id,gift_year) " +
             "VALUES ($name, $tel, $birth, $giftTitle, $giftId,$giftYear)";
         let sqlParams = {
             $name: Stuff.name,
@@ -102,7 +102,7 @@ class StuffDao {
      * returns database insertion status
      */
     createWithId(Stuff) {
-        let sqlRequest = "INSERT into stuff (id, name, tel, birth, giftTitle, giftId,giftYear) " +
+        let sqlRequest = "INSERT into stuff (id, name, tel, birth, gift_title, gift_id,gift_year) " +
             "VALUES ($id, $name, $tel, $birth, $giftTitle, $giftId,$giftYear)";
         let sqlParams = {
             $id: Stuff.id,
@@ -136,6 +136,52 @@ class StuffDao {
         let sqlRequest = "SELECT (count(*) > 0) as found FROM stuff WHERE id=$id";
         let sqlParams = {$id: id};
         return this.common.run(sqlRequest, sqlParams);
+    };
+
+    existByName(Stuff) {
+        let sqlRequest = "SELECT (count(*) > 0) as found FROM stuff " +
+            " WHERE" +
+            " name=$name " +
+            " and tel=$tel " +
+            " and birth=$birth ";
+             if(Stuff.giftYear!=null||Stuff.giftYear!="null"||Stuff.giftYear!=undefined){
+                 sqlRequest += " and gift_year=$giftYear";
+             }
+        console.log(Stuff.giftYear);
+        console.log(Stuff.giftYear != null);
+        let sqlParams = {
+            $name: Stuff.name,
+            $tel: Stuff.tel,
+            $birth: Stuff.birth,
+            $giftYear:Stuff.giftYear
+        };
+        console.log(sqlRequest);
+        console.log(sqlParams);
+        return this.common.run(sqlRequest, sqlParams);
+    };
+
+    findByName(Stuff) {
+        let sqlRequest = "SELECT id, name, tel, birth, gift_title, gift_id,gift_year,create_time FROM stuff  "+
+        " WHERE  " +
+        " name = '"+Stuff.name+"'";
+       // "and tel=$tel " +
+       // "and birth=$birth ";
+       //  if(Stuff.giftYear!=null||Stuff.giftYear!="null"||Stuff.giftYear!=undefined){
+       //      sqlRequest += " and gift_year=$giftYear";
+       //  }
+        let sqlParams = {
+           // $name: Stuff.name
+            // $tel: Stuff.tel,
+            // $birth: Stuff.birth,
+            // $giftYear:Stuff.giftYear
+        };
+        return this.common.findAll(sqlRequest).then(rows => {
+            let stuffs = [];
+            for (const row of rows) {
+                stuffs.push(new Stuff(row.id, row.name, row.tel, row.birth, row.gift_title, row.gift_id,row.gift_year,row.create_time));
+            }
+            return stuffs;
+        });
     };
 }
 

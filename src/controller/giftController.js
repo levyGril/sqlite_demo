@@ -61,8 +61,7 @@ class GiftController {
      */
     update(req, res) {
         let gift = new Gift();
-        gift.id = req.body.id;
-
+        gift.id = req.params.id;
         return this.giftDao.update(gift)
             .then(this.common.editSuccess(res))
             .catch(this.common.serverError(res));

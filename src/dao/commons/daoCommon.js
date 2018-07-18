@@ -34,6 +34,8 @@ class Common {
         return new Promise(function (resolve, reject) {
             let stmt = database.db.prepare(sqlRequest);
             stmt.all(sqlParams, function (err, rows) {
+                console.log(sqlParams);
+                console.log(sqlRequest);
                 if (err) {
                     reject(
                         new DaoError(11, "Invalid arguments")
