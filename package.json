@@ -11,6 +11,7 @@
     "start:prod": "cross-env process.env.NODE_ENV=production supervisor ./dist/app.js"
   },
   "dependencies": {
+    "@altrdpdgm/cors": "^2.0.0",
     "bluebird": "*",
     "body-parser": "*",
     "cross-env": "^5.2.0",

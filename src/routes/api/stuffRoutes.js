@@ -20,7 +20,7 @@ router.get('/exists/:id', function (req, res) {
     stuffController.exists(req, res);
 });
 
-router.get('/:id', function (req, res) {
+router.get('findById/:id', function (req, res) {
     stuffController.findById(req, res);
 });
 
@@ -28,7 +28,7 @@ router.get('/', function (req, res) {
     stuffController.findAll(res);
 });
 
-router.put('/:id', function (req, res) {
+router.put('update/:id', function (req, res) {
     stuffController.update(req, res);
 });
 
@@ -36,7 +36,7 @@ router.post('/create', function (req, res) {
     stuffController.create(req, res);
 });
 
-router.delete('/:id', function (req, res) {
+router.delete('delete/:id', function (req, res) {
     stuffController.deleteById(req, res);
 });
 

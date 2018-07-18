@@ -1,6 +1,13 @@
 /* Load modules */
 const express = require("express");
 const app = express();
+
+const CORSModule = require("@altrdpdgm/altrd-cors")({options}); //<= set custom response headers in a configuration object on a `headers` property.
+CORSModule.setOriginList(["http://localhost:8080", "http://116.62.145.100", "http://0.0.0.0"]);
+
+//Configure the Express application to use the CORSModule on all incoming requests.
+app.use(CORSModule.handleCORS);
+
 const bodyParser = require("body-parser");
 
 /* Database configuration */
