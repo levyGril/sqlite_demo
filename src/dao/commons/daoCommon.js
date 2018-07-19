@@ -15,6 +15,7 @@ class Common {
     findAll(sqlRequest) {
         return new Promise(function (resolve, reject) {
             database.db.all(sqlRequest, function (err, rows) {
+                console.log(rows);
                 if (err) {
                     reject(
                         new DaoError(20, "Internal server error")
@@ -61,7 +62,9 @@ class Common {
                         new DaoError(20, "Internal server error")
                     );
                 } else if (row && row.found === 1) {
-                    resolve(true);
+                    resolve(1);
+                } else if (row && row.found === 0) {
+                    resolve(0);
                 } else {
                     reject(
                         new DaoError(21, "Entity not found")

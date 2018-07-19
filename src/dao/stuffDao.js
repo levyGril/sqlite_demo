@@ -163,25 +163,17 @@ class StuffDao {
     findByName(Stuff) {
         let sqlRequest = "SELECT id, name, tel, birth, gift_title, gift_id,gift_year,create_time FROM stuff  "+
         " WHERE  " +
-        " name = '"+Stuff.name+"'"+
+        " name = $name"+
         " and tel=$tel " +
-        " and birth=$birth ";
-        if(Stuff.giftYear!=null||Stuff.giftYear!="null"||Stuff.giftYear!=undefined){
-            sqlRequest += " and gift_year=$giftYear";
-        }
+        " and birth=$birth "+
+        " and gift_year=$giftYear";
         let sqlParams = {
             $name: Stuff.name,
             $tel: Stuff.tel,
             $birth: Stuff.birth,
             $giftYear:Stuff.giftYear
         };
-        return this.common.findAll(sqlRequest).then(rows => {
-            let stuffs = [];
-            for (const row of rows) {
-                stuffs.push(new Stuff(row.id, row.name, row.tel, row.birth, row.gift_title, row.gift_id,row.gift_year,row.create_time));
-            }
-            return stuffs;
-        });
+        return this.common.findOne(sqlRequest,sqlParams);
     };
 }
 
