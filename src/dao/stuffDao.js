@@ -143,37 +143,37 @@ class StuffDao {
             " WHERE" +
             " name=$name " +
             " and tel=$tel " +
-            " and birth=$birth ";
-             if(Stuff.giftYear!=null||Stuff.giftYear!="null"||Stuff.giftYear!=undefined){
-                 sqlRequest += " and gift_year=$giftYear";
-             }
-        console.log(Stuff.giftYear);
-        console.log(Stuff.giftYear != null);
+            " and birth=$birth "+
+           "  and gift_year=$giftYear";
+             // if(Stuff.giftYear!=null||Stuff.giftYear!="null"||Stuff.giftYear!=undefined){
+             //     sqlRequest += " and gift_year=$giftYear";
+             // }
         let sqlParams = {
             $name: Stuff.name,
             $tel: Stuff.tel,
             $birth: Stuff.birth,
             $giftYear:Stuff.giftYear
         };
-        console.log(sqlRequest);
-        console.log(sqlParams);
-        return this.common.run(sqlRequest, sqlParams);
+        return this.common.existsOne(sqlRequest, sqlParams).then((res)=>{
+            console.log(res);
+            return {data: res}
+        });
     };
 
     findByName(Stuff) {
         let sqlRequest = "SELECT id, name, tel, birth, gift_title, gift_id,gift_year,create_time FROM stuff  "+
         " WHERE  " +
-        " name = '"+Stuff.name+"'";
-       // "and tel=$tel " +
-       // "and birth=$birth ";
-       //  if(Stuff.giftYear!=null||Stuff.giftYear!="null"||Stuff.giftYear!=undefined){
-       //      sqlRequest += " and gift_year=$giftYear";
-       //  }
+        " name = '"+Stuff.name+"'"+
+        " and tel=$tel " +
+        " and birth=$birth ";
+        if(Stuff.giftYear!=null||Stuff.giftYear!="null"||Stuff.giftYear!=undefined){
+            sqlRequest += " and gift_year=$giftYear";
+        }
         let sqlParams = {
-           // $name: Stuff.name
-            // $tel: Stuff.tel,
-            // $birth: Stuff.birth,
-            // $giftYear:Stuff.giftYear
+            $name: Stuff.name,
+            $tel: Stuff.tel,
+            $birth: Stuff.birth,
+            $giftYear:Stuff.giftYear
         };
         return this.common.findAll(sqlRequest).then(rows => {
             let stuffs = [];

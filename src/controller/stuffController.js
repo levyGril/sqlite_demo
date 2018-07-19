@@ -123,7 +123,6 @@ class StuffController {
      */
     exists(req, res) {
         let id = req.params.id;
-
         this.stuffDao.exists(id)
             .then(this.common.existsSuccess(res))
             .catch(this.common.findError(res));
@@ -131,15 +130,13 @@ class StuffController {
 
     existByName(req, res) {
         let stuff = new Stuff();
-
         stuff.name = req.body.name;
         stuff.tel= req.body.tel;
         stuff.birth= req.body.birth;
         stuff.giftYear = req.body.giftYear;
-
         return this.stuffDao.existByName(stuff)
-            .then(this.common.editSuccess(res))
-            .catch(this.common.serverError(res));
+            .then(this.common.existsSuccess(res))
+            .catch(this.common.findError(res));
 
     };
 
@@ -152,8 +149,8 @@ class StuffController {
         stuff.giftYear = req.body.giftYear;
 
         return this.stuffDao.findByName(stuff)
-            .then(this.common.editSuccess(res))
-            .catch(this.common.serverError(res));
+            .then(this.common.findSuccess(res))
+            .catch(this.common.findError(res));
 
     };
 
