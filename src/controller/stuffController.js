@@ -26,9 +26,15 @@ class StuffController {
      * @return entity
      */
     findById(req, res) {
-        let id = req.params.id;
+        let stuff = new Stuff();
+        if (req.body.id) {
+            stuff.id = req.body.id;
+        }
+        stuff.name = req.body.name;
+        stuff.tel= req.body.tel;
+        stuff.giftYear = req.body.giftYear;
 
-        this.stuffDao.findById(id)
+        this.stuffDao.findById(stuff)
             .then(this.common.findSuccess(res))
             .catch(this.common.findError(res));
     };
@@ -61,15 +67,15 @@ class StuffController {
      */
     update(req, res) {
         let stuff = new Stuff();
-        stuff.id = req.body.id;
-        // stuff.name = req.body.name;
-        // stuff.tel= req.body.tel;
-        // stuff.birth= req.body.birth;
+       // stuff.id = req.body.id;
+        stuff.name = req.body.name;
+        stuff.tel= req.body.tel;
+        stuff.giftYear= req.body.giftYear;
         stuff.giftTitle= req.body.giftTitle;
         stuff.giftId= req.body.giftId;
 
         return this.stuffDao.update(stuff)
-            .then(this.common.editSuccess(res))
+            .then(this.common.findSuccess(res))
             .catch(this.common.serverError(res));
     };
 
@@ -80,26 +86,28 @@ class StuffController {
      */
     create(req, res) {
         let stuff = new Stuff();
-        if (req.body.id) {
-            stuff.id = req.body.id;
-        }
+        // if (req.body.id) {
+        //     stuff.id = req.body.id;
+        // }
         stuff.name = req.body.name;
         stuff.tel= req.body.tel;
         stuff.birth= req.body.birth;
         stuff.giftTitle= req.body.giftTitle;
         stuff.giftId= req.body.giftId;
         stuff.giftYear = req.body.giftYear;
-
-        if (req.body.id) {
-            return this.stuffDao.createWithId(stuff)
-                .then(this.common.editSuccess(res))
-                .catch(this.common.serverError(res));
-        }
-        else {
-            return this.stuffDao.create(stuff)
-                .then(this.common.editSuccess(res))
-                .catch(this.common.serverError(res));
-        }
+        return this.stuffDao.create(stuff)
+            .then(this.common.findSuccess(res))
+            .catch(this.common.serverError(res));
+        // if (req.body.id) {
+        //     return this.stuffDao.createWithId(stuff)
+        //         .then(this.common.editSuccess(res))
+        //         .catch(this.common.serverError(res));
+        // }
+        // else {
+        //     return this.stuffDao.create(stuff)
+        //         .then(this.common.editSuccess(res))
+        //         .catch(this.common.serverError(res));
+        // }
 
     };
 
@@ -109,10 +117,13 @@ class StuffController {
      * returns database deletion status
      */
     deleteById(req, res) {
-        let id = req.params.id;
+        let stuff = new Stuff();
+        stuff.name = req.body.name;
+        stuff.tel= req.body.tel;
+        stuff.giftYear = req.body.giftYear;
 
-        this.stuffDao.deleteById(id)
-            .then(this.common.editSuccess(res))
+        this.stuffDao.deleteById(stuff)
+            .then(this.common.findSuccess(res))
             .catch(this.common.serverError(res));
     };
 
@@ -122,8 +133,11 @@ class StuffController {
      * @return
      */
     exists(req, res) {
-        let id = req.params.id;
-        this.stuffDao.exists(id)
+        let stuff = new Stuff();
+        stuff.name = req.body.name;
+        stuff.tel= req.body.tel;
+        stuff.giftYear = req.body.giftYear;
+        this.stuffDao.exists(stuff)
             .then(this.common.existsSuccess(res))
             .catch(this.common.findError(res));
     };

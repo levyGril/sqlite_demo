@@ -16,11 +16,11 @@ router.get('/count', function (req, res) {
     stuffController.countAll(res);
 });
 
-router.get('/exists/:id', function (req, res) {
+router.post('/exists', function (req, res) {
     stuffController.exists(req, res);
 });
 
-router.get('/findById/:id', function (req, res) {
+router.post('/findById', function (req, res) {
     stuffController.findById(req, res);
 });
 
@@ -36,7 +36,7 @@ router.post('/create', function (req, res) {
     stuffController.create(req, res);
 });
 
-router.delete('/delete/:id', function (req, res) {
+router.post('/delete', function (req, res) {
     stuffController.deleteById(req, res);
 });
 

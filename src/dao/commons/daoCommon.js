@@ -82,11 +82,12 @@ class Common {
                 console.log(sqlRequest);
                 console.log(err);
                 if (this.changes === 1) {
-                    resolve(true);
+                    resolve({status:1});
                 } else if (this.changes === 0) {
-                    reject(
-                        new DaoError(21, "Entity not found")
-                    )
+                    resolve({status:0});
+                    // reject(
+                    //     new DaoError(21, "Entity not found")
+                    // )
                 } else {
                     console.log(err);
                     reject(

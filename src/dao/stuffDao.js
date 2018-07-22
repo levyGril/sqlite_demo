@@ -21,11 +21,15 @@ class StuffDao {
      * @params id
      * @return entity
      */
-    findById(id) {
-        let sqlRequest = "SELECT id, name, tel, birth, gift_title, gift_id,gift_year,create_time FROM stuff WHERE id=$id";
-        let sqlParams = {$id: id};
+    findById(Stuff) {
+        let sqlRequest = "SELECT name, tel, birth, gift_title, gift_id,gift_year,create_time FROM stuff WHERE name=$name and tel=$tel and gift_year=$giftYear";
+        let sqlParams = {
+            $name: Stuff.name,
+            $tel: Stuff.tel,
+            $giftYear: Stuff.giftYear
+        };
         return this.common.findOne(sqlRequest, sqlParams).then(row =>
-            new Stuff(row.id, row.name, row.tel, row.birth, row.gift_title, row.gift_id,row.gift_year,row.create_time));
+            new Stuff(row.name, row.tel, row.birth, row.gift_title, row.gift_id,row.gift_year,row.create_time));
     };
 
     /**
@@ -37,7 +41,7 @@ class StuffDao {
         return this.common.findAll(sqlRequest).then(rows => {
             let stuffs = [];
             for (const row of rows) {
-                stuffs.push(new Stuff(row.id, row.name, row.tel, row.birth, row.gift_title, row.gift_id,row.gift_year,row.create_time));
+                stuffs.push(new Stuff(row.name, row.tel, row.birth, row.gift_title, row.gift_id,row.gift_year,row.create_time));
             }
             return stuffs;
         });
@@ -59,20 +63,21 @@ class StuffDao {
      */
     update(Stuff) {
         let sqlRequest = "UPDATE stuff SET " +
-           /** "name=$name, " +
-            "tel=$tel, " +
-            "birth=$birth, " +*/
             "gift_title=$giftTitle, " +
             "gift_id=$giftId " +
-            "WHERE id=$id";
+            "WHERE 1=1 " +
+            "and name=$name " +
+            "and tel=$tel " +
+            "and gift_year=$giftYear " +
+            "";
 
         let sqlParams = {
-            //$name: Stuff.name,
-            //$tel: Stuff.tel,
-           // $birth: Stuff.birth,
+            $name: Stuff.name,
+            $tel: Stuff.tel,
+            $giftYear: Stuff.giftYear,
             $giftTitle: Stuff.giftTitle,
-            $giftId: Stuff.giftId,
-            $id: Stuff.id
+            $giftId: Stuff.giftId
+            //$id: Stuff.id
         };
         return this.common.run(sqlRequest, sqlParams);
     };
@@ -83,17 +88,20 @@ class StuffDao {
      * returns database insertion status
      */
     create(Stuff) {
-        let sqlRequest = "INSERT into stuff (name, tel, birth, gift_title, gift_id,gift_year) " +
-            "VALUES ($name, $tel, $birth, $giftTitle, $giftId,$giftYear)";
+        let sqlRequest = "INSERT OR IGNORE into stuff (name, tel, birth, gift_year) " +
+            "VALUES ($name, $tel, $birth, $giftYear)";
         let sqlParams = {
             $name: Stuff.name,
             $tel: Stuff.tel,
             $birth: Stuff.birth,
-            $giftTitle: Stuff.giftTitle,
-            $giftId: Stuff.giftId,
+           // $giftTitle: Stuff.giftTitle,
+          //  $giftId: Stuff.giftId,
             $giftYear: Stuff.giftYear
         };
-        return this.common.run(sqlRequest, sqlParams);
+        return this.common.run(sqlRequest, sqlParams).then(data=>{
+            console.log(data);
+            return data;
+        });
     };
 
     /**
@@ -101,29 +109,33 @@ class StuffDao {
      * @params Car
      * returns database insertion status
      */
-    createWithId(Stuff) {
-        let sqlRequest = "INSERT into stuff (id, name, tel, birth, gift_title, gift_id,gift_year) " +
-            "VALUES ($id, $name, $tel, $birth, $giftTitle, $giftId,$giftYear)";
-        let sqlParams = {
-            $id: Stuff.id,
-            $name: Stuff.name,
-            $tel: Stuff.tel,
-            $birth: Stuff.birth,
-            $giftTitle: Stuff.giftTitle,
-            $giftId: Stuff.giftId,
-            $giftYear: Stuff.giftYear
-        };
-        return this.common.run(sqlRequest, sqlParams);
-    };
+    // createWithId(Stuff) {
+    //     let sqlRequest = "INSERT into stuff (id, name, tel, birth, gift_title, gift_id,gift_year) " +
+    //         "VALUES ($id, $name, $tel, $birth, $giftTitle, $giftId,$giftYear)";
+    //     let sqlParams = {
+    //         $id: Stuff.id,
+    //         $name: Stuff.name,
+    //         $tel: Stuff.tel,
+    //         $birth: Stuff.birth,
+    //         $giftTitle: Stuff.giftTitle,
+    //         $giftId: Stuff.giftId,
+    //         $giftYear: Stuff.giftYear
+    //     };
+    //     return this.common.run(sqlRequest, sqlParams);
+    // };
 
     /**
      * Deletes an entity using its Id / Primary Key
      * @params id
      * returns database deletion status
      */
-    deleteById(id) {
-        let sqlRequest = "DELETE FROM stuff WHERE id=$id";
-        let sqlParams = {$id: id};
+    deleteById(Stuff) {
+        let sqlRequest = "DELETE FROM stuff WHERE name=$name and tel=$tel and gift_year=$giftYear";
+        let sqlParams = {
+            $name: Stuff.name,
+            $tel: Stuff.tel,
+            $giftYear: Stuff.giftYear
+        };
         return this.common.run(sqlRequest, sqlParams);
     };
 
@@ -132,9 +144,13 @@ class StuffDao {
      * @params id
      * returns database entry existence status (true/false)
      */
-    exists(id) {
-        let sqlRequest = "SELECT (count(*) > 0) as found FROM stuff WHERE id=$id";
-        let sqlParams = {$id: id};
+    exists(Stuff) {
+        let sqlRequest = "SELECT (count(*) > 0) as found FROM stuff WHERE name=$name and tel=$tel and gift_year=$giftYear";
+        let sqlParams = {
+            $name: Stuff.name,
+            $tel: Stuff.tel,
+            $giftYear: Stuff.giftYear
+        };
         return this.common.run(sqlRequest, sqlParams);
     };
 
@@ -161,7 +177,7 @@ class StuffDao {
     };
 
     findByName(Stuff) {
-        let sqlRequest = "SELECT id, name, tel, birth, gift_title, gift_id,gift_year,create_time FROM stuff  "+
+        let sqlRequest = "SELECT name, tel, birth, gift_title, gift_id,gift_year,create_time FROM stuff  "+
         " WHERE  " +
         " name = $name"+
         " and tel=$tel " +
